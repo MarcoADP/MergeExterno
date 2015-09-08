@@ -8,10 +8,10 @@ char lixo[1];
 
 FILE *arq;
 
-//struct {
-	char chave[5];
-	char desc[56];
-//}
+char chave[100][5];
+char desc[100][56];
+
+
 
 void abreArquivo(){
 	char nomeArq[] = "arq.txt";
@@ -40,21 +40,14 @@ void recebeParametros(){
 	fscanf(arq, "%d\n", &qtdRegistro);
 	printf("Registros: %d\n", qtdRegistro);
 	
-	
-	//while( (fscanf(arq,"%s %f %f %f\n", nome, &nota1, &nota2, &nota3))!=EOF )
-	
-	/*while(fscanf(arq, "%4[^\n] %c %55[^\n]", chave, lixo, desc) != EOF){
-		printf("%s -- %s\n", chave, desc);
-	}*/
-	
 	int i;
 	
 	for(i = 0; i<qtdRegistro; i++){
-		fgets(chave, sizeof(chave), arq);
-		printf("%s\n", chave);
+		fgets(chave[i], sizeof(chave[i]), arq);
+		printf("%s\n", chave[i]);
 		fgets(lixo, 2, arq);
-		fgets(desc, sizeof(desc), arq);
-		printf("%s\n", desc);	
+		fgets(desc[i], sizeof(desc[i]), arq);
+		printf("%s\n", desc[i]);	
 		fgets(lixo, 3, arq);
 	}
 }
