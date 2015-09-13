@@ -1,31 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <limits.h>
 
 int tamBufferEntrada;
 int tamBufferSaida;
-int tamBufferMinimo;
 int qtdRegistro;
-int tamRegistro;
-int maxRegistro;
-int numCorridas;
-char lixo[1];
+int totalCorridas;
 
-
-FILE *arq;
-char* nomeArq;
+FILE *arq_entrada;
 
 typedef struct {
     int chave;
-    char desc[56]; //Lembrar do "\0"
+    char desc[58];
 } Registro;
 
-Registro* regLidos;
-
-int chave[100][5];
-char desc[100][56];
-
-char aux[5];
 
 //Sort e compRegistro sao do Pedro
 int compRegistro(const void *a, const void *b){
@@ -38,267 +27,221 @@ void sortRegistro(Registro* reg, int N){
     qsort(reg, N, sizeof(Registro), compRegistro);
 }
 
-
-
-void abreArquivo(){
-	nomeArq = "arq.txt";
-	//printf("Digite o nome do arquivo: ");
-	//scanf("%s", nomeArq);
-	arq = fopen(nomeArq, "rb");
-	
-	if (arq == NULL) {
+void abreArquivo(){    
+    char nomeArq[30];
+    printf("\n\nDigite o nome do arquivo: ");
+    scanf("%s", nomeArq);
+    arq_entrada = fopen(nomeArq, "r");
+    
+    if (arq_entrada == NULL) {
        printf("Erro na abertura do arquivo\n");
-	   printf("Programa encerrado!\n");
+       printf("Programa encerrado!\n");
        exit(1);
-    } 	
+    }   
 }
 
 void recebeParametros(){
-	fscanf(arq, "%d\n", &qtdRegistro);									// Quantidade de registros, 1ª linha do registrador
-	
-	tamRegistro = sizeof(Registro);										// Tamanho de cada Registro
-	
-	tamBufferMinimo = (int)ceil(sqrt(qtdRegistro)) * tamRegistro;		// Tamanho Minimo para o Buffer de Entrada
-	
-	printf("Digite o tamanho do Buffer de Entrada (EM BYTES): ");
-	scanf("%d", &tamBufferEntrada);										// Tamanho do Buffer de Entrada
-	
-	while(tamBufferEntrada < tamBufferMinimo){
-		printf("\nTamanho Invalido!\nNecessario que o buffer de entrada tenha o tamanho minimo de %d\n\n", tamBufferMinimo);
-		printf("Digite o tamanho do Buffer de Entrada: ");
-		scanf("%d", &tamBufferEntrada);
-	}
-	
-	
-	printf("Digite o tamanho do Buffer de Saida (EM BYTES): ");			// Tamanho do Buffer de Saida
-	scanf("%d", &tamBufferSaida);
-	
-	if(tamBufferSaida > tamBufferEntrada){
-		tamBufferSaida = tamBufferEntrada;
-	}
-	
-	maxRegistro = (int) floor((double)tamBufferEntrada / (double)tamRegistro);	//Quantidade max de Registro no Buffer de Entrada
-	numCorridas = (int) ceil((double)qtdRegistro / (double)maxRegistro);
-	
-	
-	//printf("Registros: %d\n", qtdRegistro);
-	
-	/*int i;
-	
-	for(i = 0; i<qtdRegistro; i++){
-		fread(&chave[i], sizeof(int), 1, arq);
-		printf("%s -- ", chave[i]);
-		fgets(lixo, 2, arq);
-		fread(desc[i], sizeof(desc[i])-1, 1, arq);
-		printf("%s\n", desc[i]);	
-		fgets(lixo, 4, arq);
-	}*/
-}
-
-void mostraParametros(){
-	printf("\n-------------------------------------\n");
-	printf("\nPARAMETROS PARA O MERGE SORT EXTERNO\n");
-	printf("\nREGISTROS:\n");
-	printf("Tamanho: %d Bytes\n", tamRegistro);
-	printf("Quantidade: %d Registros\n", qtdRegistro);
-	
-	printf("\nBUFFER ENTRADA/SAIDA\n");
-	printf("Tamanho Min. Buffer Entrada: %d Bytes\n", tamBufferMinimo);
-	printf("Tamanho Buffer Entrada: %d Bytes\n", tamBufferEntrada);
-	printf("Tamanho Buffer Saida: %d Bytes\n", tamBufferSaida);
-	
-	printf("\nCALCULOS\n");
-	printf("Maximo de Registros no Buffer de Entrada: %d Registros\n", maxRegistro);
-	printf("Numero de Corridas: %d Corridas\n", numCorridas);
-	
+    fscanf(arq_entrada, "%d", &qtdRegistro);                            // Quantidade de registros, 1ª linha do registrador
+    printf("\n\nNumero de registros no arquivo: %d\n", qtdRegistro);
+    
+    int tamBufferMinimo;
+    int numMaximoCorrida = (int)(sqrt(qtdRegistro));                    // (1/corrida)*(qtdRegistro/corrida) >= 1    
+    tamBufferMinimo = qtdRegistro / numMaximoCorrida;                   // Tamanho Minimo para o Buffer de Entrada
+    
+    printf("\nInforme o numero de registros do Buffer de Entrada: ");
+    scanf("%d", &tamBufferEntrada);                                     // Tamanho do Buffer de Entrada
+    
+    while(tamBufferEntrada < tamBufferMinimo){
+        printf("\nTamanho Invalido!\nNecessario que o buffer de entrada tenha o tamanho minimo de %d registros\n", tamBufferMinimo);
+        printf("\nInforme o numero de registros do Buffer de Entrada: ");
+        scanf("%d", &tamBufferEntrada);
+    }
+    
+    printf("Informe o numero de registros do Buffer de Saida: ");
+    scanf("%d", &tamBufferSaida);                                       // Tamanho do Buffer de Saida
+        
+    totalCorridas = (int) ceil((double)qtdRegistro / (double)tamBufferEntrada);
 }
 
 void divisaoArquivo(){
-	FILE *corrida[numCorridas];
-	int numRegLidos = 0;
-	int regBuffer;
-	int seeks = 0;
+    printf("\nFASE DE SORTING: ");
+    printf("\n---------------------------------------------------\n");
+    FILE *corrida[totalCorridas];
+    int numRegBuffer;
+    int num_read = 0;
+    int num_write = 0;
     int numCorrida;
-	int i;
-	
-    regLidos = calloc(maxRegistro, tamRegistro);
+    Registro regLidos[tamBufferEntrada];
+    int i;    
     
-	for(numCorrida = 0; numCorrida < numCorridas; numCorrida++){
-        regBuffer = 0;
+    for(numCorrida = 0; numCorrida < totalCorridas; numCorrida++){
+        numRegBuffer = 0;
         char nomeCorrida[32];
-        sprintf(nomeCorrida, "%s%d", "corrida", numCorrida);
+        sprintf(nomeCorrida, "%s%d.txt", "corrida", numCorrida);
         
-        printf("\nCorrida numero: %d\n", numCorrida);
+        printf("Corrida %d:\n", numCorrida);
         
-        corrida[numCorrida] = fopen(nomeCorrida, "wb");
+        /* CRIA ARQUIVO DE CORRIDA */
+        corrida[numCorrida] = fopen(nomeCorrida, "w");
         if(corrida[numCorrida] == NULL){
-            printf("O Arquivo nao pode ser aberto!\n");
+            printf("O Arquivo de corrida nao pode ser criado!\n");
             exit(-1);
         }
-        
-       for(i = 0; i < maxRegistro; i++){
-            
-			/*fread(&chave[i], sizeof(int), 1, arq);
-			printf("%s -- ", chave[i]);
-			fgets(lixo, 2, arq);
-			fread(desc[i], sizeof(desc[i])-1, 1, arq);
-			printf("%s\n", desc[i]);	
-			fgets(lixo, 4, arq);*/
-			
-            fread(aux, sizeof(int), 1, arq);
-			regLidos[i].chave = atoi(aux);
-			//fgets(&regLidos[i].chave, sizeof(regLidos[i].chave), arq);
-			fgets(lixo, 2, arq);
-            fread(regLidos[i].desc, sizeof(regLidos[i].desc)-1, 1, arq);
-			//printf("%d -- %s\n", regLidos[i].chave, regLidos[i].desc);
-			fgets(lixo, 4, arq);
-			seeks += 1;
-            
-            if(feof(arq)){
+
+        printf("Lendo arquivo de entrada e preenchendo o buffer...\n");
+        /* LÊ ARQUIVO DE ENTRADA */
+        for(i = 0; i < tamBufferEntrada; i++){            
+            if (fscanf(arq_entrada, "%d", &regLidos[i].chave) < 1)
                 break;
-            }
-            
-            numRegLidos++;
-            
-            regBuffer++;
+
+            fgets(regLidos[i].desc, sizeof(regLidos[i].desc), arq_entrada);
+
+            num_read++;
+            numRegBuffer++;
         }
-        int j;
-		printf("\nSem ordem:\n");
-		for(j = 0; j < regBuffer; j++){
-			printf("%4.d -- ", regLidos[j].chave);
-			printf("%s\n", regLidos[j].desc);
-		}
-		
-        sortRegistro(regLidos, regBuffer);  
-		
-        printf("\nCom ordem: \n");
-		for(j = 0; j < regBuffer; j++){
-			printf("%d -- ", regLidos[j].chave);
-			printf("%s\n", regLidos[j].desc);
-		}
         
-        //buffer ordenado, escrever no arquivo de saida
-		for(i = 0; i < regBuffer; i++){
-            fwrite(&regLidos[i].chave, sizeof(regLidos[i].chave), 1, corrida[numCorrida]);
-            fwrite(regLidos[i].desc, sizeof(regLidos[i].desc), 1, corrida[numCorrida]);
+        printf("Ordenando o buffer de entrada...\n");
+        sortRegistro(regLidos, numRegBuffer);
+        
+        printf("Escrevendo a corrida...\n");
+        /* ESCREVE CORRIDA ORDENADA */
+        for(i = 0; i < numRegBuffer; i++){
+            fwrite(&regLidos[i], sizeof(Registro), 1, corrida[numCorrida]);
+            num_write++;
         }
+
         fclose(corrida[numCorrida]);
-        printf(" salva em %s com %d registros\n", nomeCorrida, seeks);
-        
+        printf("Corrida salva em %s com %d registros\n", nomeCorrida, numRegBuffer);
+        printf("---------------------------------------------------\n");
     }
-    free(regLidos);
-    fclose(arq);
+    printf("\nFim da fase de sorting...\n");
+    printf("%d corridas de no maximo %d registros foram geradas.\n", totalCorridas, tamBufferEntrada);
+    printf("Numero de total de reads: %d\n", num_read);
+    printf("Numero de total de writes: %d\n", num_write);
+    printf("\n---------------------------------------------------\n");
+    fclose(arq_entrada);
 }
 
-void kwayMerge(){
-	/*int numCorrida;
-	regLidos = calloc(numCorrida, tamRegistro);
+int input(Registro reg[], int num, FILE* arq_corrida){
+    int retorno_read;
+    retorno_read = fread(reg, sizeof(Registro), num, arq_corrida);
+    int i;
+    for (i = retorno_read; i < num; i++)
+        reg[i].chave = -1;
+    return retorno_read;
+}
 
-    char saida[] = "saidaOrdenado.txt";
-    FILE* arqSaida = fopen(saida, "wb");
-    if(arqSaida == NULL){
-        printf("Nao foi possivel abrir o arquivo de saida");
+int menorChave(int totalCorridas, int reg_por_corrida, Registro regLidos[totalCorridas][reg_por_corrida], int *i_menor, int *j_menor){
+    int i, j;
+    int menor = INT_MAX;
+    for (i = 0; i < totalCorridas; i++){
+        for (j = 0; j < reg_por_corrida; j++){
+            if (regLidos[i][j].chave != -1 && regLidos[i][j].chave < menor){
+                *i_menor = i;
+                *j_menor = j;
+                menor = regLidos[i][j].chave;
+            }
+        }
+    }
+    if (menor != INT_MAX)
+        return 1;
+
+    return -1;
+}
+
+int lerBloco(int totalCorridas, int reg_por_corrida, Registro regLidos[totalCorridas][reg_por_corrida], FILE *corrida[]){
+    int i, j, num_read = 0;
+    int flag;
+    for (i = 0; i < totalCorridas; i++){
+        flag = 0;
+        for (j = 0; j < reg_por_corrida; j++){
+            if (regLidos[i][j].chave != -1){
+                flag = 1;
+            }
+        }
+        if (flag == 0){
+            if (input(regLidos[i], reg_por_corrida, corrida[i]) != 0)
+                num_read++;
+        }
+    }
+    return num_read;
+}
+
+void merging(){
+    printf("\nFASE DE MERGING: ");
+    printf("\n---------------------------------------------------\n");
+
+    int reg_por_corrida = ((1.0/totalCorridas)*tamBufferEntrada);
+
+    int i, j, num_write = 0, num_read = 0;
+    Registro regLidos[totalCorridas][reg_por_corrida];
+    Registro regSaida[tamBufferSaida];
+    FILE *corrida[totalCorridas];
+
+    char nomeArqSaida[] = "saida-ordenado.txt";
+    FILE* arq_saida = fopen(nomeArqSaida, "w");
+    if(arq_saida == NULL){
+        printf("O arquivo de saida nao pode ser criado.");
         exit(-1);
     }
-    
-    fwrite(&qtdRegistro, sizeof(qtdRegistro), 1, arqSaida);
-    
-    //Inicializar a leitura
-    int corridaSaida = 0; //marcador de arquivos abertos
-	for(numCorrida = 0; numCorrida < numCorridas; numCorrida++ ){
+
+    fprintf(arq_saida, "%d\n", qtdRegistro);
+
+    /* ABRINDO ARQUIVOS */
+    for (i = 0; i < totalCorridas; i++){
         char nomeCorrida[32];
-        sprintf(nomeCorrida, "%s%d", nomeArq, numCorrida);
+        sprintf(nomeCorrida, "%s%d.txt", "corrida", i);
+        corrida[i] = fopen(nomeCorrida, "r");
         
-        corrida[numCorrida] = fopen(nomeCorrida, "r");
-        if(corrida[numCorrida] == NULL){
-            printf("Nao foi possivel abrir arquivo de corrida");
-            exit(-1);
-        }
-        
-        corridaSaida |= (1 << c); //arquivo marcado como aberto
-        
-        //agora ler o primeiro registro
-        fread(&reg_lidos[c].key, sizeof(reg_lidos[c].key), 1, corrida[c]);
-        fread(reg_lidos[c].description, sizeof(reg_lidos[c].description), 1, corrida[c]);
+        input(regLidos[i], reg_por_corrida, corrida[i]);
+        num_read++;
     }
-    
-    //alocar o buffer de saida
-    size_t num_regs_saida = floor( ((double)bufferarqSaida / (double)sizeReg) );
-    Registro *reg_saida = calloc(num_regs_saida, sizeReg);
-    int ind_saida = 0;
-    
-    printf("\nUnindo arquivos... ");
-    int num_escritas = 0;
-    int num_reg_escritos = 0;
-    while(corridaSaida|0) //enquanto houver arquivo aberto
-    {
-        //Pegar o menor registro
-        int min_reg = 0;
-        while( !(corridaSaida&(1<<min_reg)) ) min_reg++; //pegar o primeiro registro de um arquivo aberto
-        
-		register int c;
-        for(c = 0; c < num_corridas; c++){
-            if(!(corridaSaida & (1<<c))) //arquivo nao aberto, nao pegar registro
-                continue;
-            
-            if(reg_lidos[c].key < reg_lidos[min_reg].key)
-                min_reg = c;
+
+    /* K-WAY MERGE */
+    int i_menor, j_menor, num_reg = 0;
+    i = menorChave(totalCorridas, reg_por_corrida, regLidos, &i_menor, &j_menor);
+    while (i != -1){
+        regSaida[num_reg] = regLidos[i_menor][j_menor];
+        regLidos[i_menor][j_menor].chave = -1;
+        num_reg++;
+
+        /* ESCRITA DO CONTEUDO DO BUFFER NO ARQUIVO DE SAIDA */
+        if (num_reg >= tamBufferSaida){
+            for (j = 0; j < num_reg; j++){                
+                fprintf(arq_saida, "%04d%s\n", regSaida[j].chave, regSaida[j].desc);                
+            }
+            num_write++;
+            num_reg = 0;
         }
 
-        
-        //Escrever o menor registro no buffer de saida
-        memcpy(&reg_saida[ind_saida], &reg_lidos[min_reg], sizeReg);
-        ind_saida++;
-        
-        //Ler o proximo registro
-        fread(&reg_lidos[min_reg].key, sizeof(reg_lidos[min_reg].key), 1, corrida[min_reg]);
-        if(feof(corrida[min_reg]))
-        {
-            //leitura encontrou fim de arquivo, fechar arquivo
-            reg_lidos[min_reg].key = __INT_MAX__;
-            reg_lidos[min_reg].description[0] = '\0'; //string "vazia"
-            corridaSaida &= ~(1 << min_reg); //marca arquivo como fechado
-            
-            fclose(corrida[min_reg]);
-            
-            
-            if(!(corridaSaida|0))
-            {
-                //se fechou o ultimo arquivo, escrever o resto do buffer de saida
-                goto LABEL_WRITEFILE; //horrivel usar isso, mas tao facil!
-            }
-        }
-        else{
-            fread(reg_lidos[min_reg].description, sizeof(reg_lidos[min_reg].description), 1, corrida[min_reg]);
-        }
-        
-        if(ind_saida >= num_regs_saida)
-        {
-            LABEL_WRITEFILE:
-        
-			//int i;
-            for(i = 0; i < ind_saida; i++)
-            {
-                fwrite(&reg_saida[i].key, sizeof(reg_saida[i].key), 1, arqSaida);
-                fwrite(reg_saida[i].description, sizeof(reg_saida[i].description), 1, arqSaida);
-                num_reg_escritos++;
-            }
-            num_escritas++;
-            ind_saida = 0;
-        }
+        num_read += lerBloco(totalCorridas, reg_por_corrida, regLidos, corrida);
+        i = menorChave(totalCorridas, reg_por_corrida, regLidos, &i_menor, &j_menor);        
     }
-    printf(" uniao completa com %d escritas.\n", num_escritas);
+
+    /* TERMINA DE ESCREVER NA SAIDA */
+    for (j = 0; j < num_reg; j++){
+        fprintf(arq_saida, "%04d%s\n", regSaida[j].chave, regSaida[j].desc);                
+    }
+    if (num_reg > 0)
+        num_write++;
     
-    fclose(arqSaida);*/
-	
+    printf("Buffer de entrada de %d registros para %d corridas.\n", tamBufferEntrada, totalCorridas);
+    printf("Numero de registros lidos por vez de cada corrida: %d\n", reg_por_corrida);
+    printf("Numero de total de reads: %d\n", num_read);
+    printf("Numero de total de writes: %d\n", num_write);
+    printf("\n---------------------------------------------------\n");
+
+    for (i = 0; i < totalCorridas; i++){
+        fclose(corrida[i]);
+    }
+    fclose(arq_saida);    
 }
 
 int main(int argc, char const *argv[]) {
-	abreArquivo();
-	recebeParametros();
-	//mostraParametros();
-	divisaoArquivo();
-	//kwayMerge();
-	
-	return 0;
+    abreArquivo();
+    recebeParametros();
+    divisaoArquivo();
+    merging();
+    
+    return 0;
 }
