@@ -46,22 +46,14 @@ void radixsort(Registro* reg, int tamanho){
 			int valor = (reg[i].chave / exp)%10;
 			int aux = --bucket[valor];
 			b[aux] = reg[i].chave;
-			//c[aux] = reg[i].desc;
-			//printf("%s: \n", c[aux]);
 			
 			for(v = 0; v < 58; v++){
 				c[aux][v] = reg[i].desc[v];
 			}
-			printf("%s: \n", c[aux]);
 		}
 		
 		for (i = 0; i < tamanho; i++){
 			reg[i].chave = b[i];
-			//reg[i].desc = c[i];
-			/*printf("%s: \n", c[i]);
-			strcpy(auxiliar, c[i]);
-			printf("%s\n", auxiliar);
-			reg[i].desc = auxiliar;*/
 			for(v = 0; v < 58; v++){
 				reg[i].desc[v] = c[i][v];
 			}
