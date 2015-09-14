@@ -1,47 +1,47 @@
 100
-0014|(CD) CD-R Dr. Hank 700MB Verde (Tubo/OEM)              |
-0015|(CD) CD-RW TDK 700MB (Capa)                            |
-0016|Acces Kit MiniI Mouse/HUB4P/RJ45/RJ11 P/NB             |
-0017|Aces Kit MTEK NB-Mouse/HUB2P/RJ45/MIC.                 |
-1414|(CD) CD-R TDK 48X 700MB (Capa)                         |
-1665|(CD) CD-R Samsung 48X 700MB (Capa)                     |
-1967|(US) MICRO USADO - P233                                |
-1968|(US)AP. FAX SHARP UX-44                                |
-1969|(US)AP. FAX SHARP UX-67                                |
-1970|(US)CABO DE REDE FURUKAWA                              |
+0014|(US)VGA 3D 67PRO                                       |
+0015|(CD) CD-R Dr. Hank 700MB Verde (Tubo/OEM)              |
+0016|(US)CPU 3 PENTIUM 233MHZ                               |
+0017|(US)MONITOR TODAS AS MARCAS                            |
+1414|(CD) CD-R Samsung 48X 700MB (Capa)                     |
+1665|(CD) CD-R TDK 48X 700MB (Capa)                         |
+1967|(CD) CD-R TDK 48X 700MB (Tubo/OEM)                     |
+1968|(CD) CD-RW TDK 700MB (Capa)                            |
+1969|(US) MICRO USADO - P233                                |
+1970|(US)AP. FAX SHARP UX-44                                |
 1971|(US)COMP. 486 DX66                                     |
 1972|(US)COMP. CIRIX 500MHz                                 |
 1973|(US)COMP.CELERON 800 PENTIUM III                       |
 1974|(US)COMP.CELERON 900 PENTIUM III                       |
-1975|(US)COOLER PARA MMX                                    |
-1976|(US)CPU 1 PENTIUM 100MHZ                               |
-1977|(US)CPU 1 PENTIUM 233MMX                               |
-1978|(US)CPU 2 PENTIUM 100MHZ                               |
-1979|(US)CPU 2 PENTIUM 233MHZ                               |
-1980|(US)CPU 3 PENTIUM 233MHZ                               |
-1981|(US)CPU ATLON XP 1600                                  |
-1982|(US)CPU DURON 1.2                                      |
-1983|(US)CPU K6 II 500MHz AMD                               |
-1984|(US)CPU PENTIUM III 500MHz                             |
-1985|(US)CX. DE SOM 2.1 USADA                               |
-1986|(US)DISCO DE ZIP 100MB IOMEGA                          |
-1987|(US)DRIVE 1.44 + 1.2 DUPLO                             |
-1988|(US)DRIVE 1.44MB                                       |
-1989|(US)DRIVE CD ROM 52X CREATIVE                          |
+1975|(US)HD 10.2GB SEAGATE 7200RPM                          |
+1976|ADAP.05059 CLONE USB A FEMEA X A FEMEA                 |
+1977|ADAP.05073 P/MOUSE E TECL.P/1 USB CLONE                |
+1978|ADAP.05087 CLONE CONVERSOR USB P/SERIAL                |
+1979|ADAP.7450 TOMADA XYZ LEADERSHIP                        |
+1980|(US)MOUSE PS2 USADO TODAS MARCAS                       |
+1981|(US)PROCESSADOR PIII 600MHZ                            |
+1982|(US)SCANNER GENIUS VIVIDIII                            |
+1983|ADAP. TRJ11 6P 4C FEMEAS                               |
+1984|ADAP.01027 CLONE P/TOMADA INDICADOR DE FUNC.           |
+1985|ADAP.05022 P/MOUSE CLONE DB9M X DB25F                  |
+1986|ADAP.9253 AUDIO 3.5MTS 5T                              |
+1987|ACESS POINT DWL 2100AP                                 |
+1988|ACESS POINT DWL-2100AP D'LINK                          |
+1989|ADAP. DIMM X MINI DIMM P/TECLADO                       |
 1990|(US)DRIVE CD ROM 52X L. G.                             |
-1991|(US)FAX MODEM 56KB MOTORLA ISA                         |
-1992|(US)FAX MODEM LUCENTE OGERE                            |
+1991|(US)TECL.AT TODAS AS MARCAS                            |
+1992|(US)CPU ATLON XP 1600                                  |
 1993|(US)FAX MODEM U.S.ROBOTICS                             |
 1994|(US)GAB. AT 300W                                       |
 1995|(US)GAB. ATX 300W P/4 AZUL                             |
 1996|(US)GAB. ATX G                                         |
-1997|(US)GAB. ATX HORIZONTAL                                |
-1998|(US)GAB. ATX MINITORRE 300W                            |
-1999|(US)GRAVADOR 24X10X40 L.G.                             |
-2000|(US)HD 10.2GB SEAGATE 7200RPM                          |
-2001|(US)HD 130GB IDE QUANTUM                               |
-2002|(US)HD 2.5GB IDE QUANTUM                               |
-2003|(US)HD 4.3GB IDE                                       |
+1997|(US)CPU DURON 1.2                                      |
+1998|(US)FAX MODEM LUCENTE OGERE                            |
+1999|(US)FAX MODEM 56KB MOTORLA ISA                         |
+2000|(US)HD 130GB IDE QUANTUM                               |
+2001|(US)HD 2.5GB IDE QUANTUM                               |
+2002|(US)HD 4.3GB IDE                                       |
+2003|(US)COOLER PARA MMX                                    |
 2004|(US)IMP.HP 1210 MULTIFUNCIONAL                         |
 2005|(US)IMPR. EPSON FX-1170                                |
 2006|(US)IMPR. EPSON LX 300                                 |
@@ -49,53 +49,53 @@
 2008|(US)IMPR. HP1100 LASER                                 |
 2009|(US)IMPR.HP 692C                                       |
 2010|(US)IMPR.HP 800 SERIE                                  |
-2011|(US)MEMORIA 128mb DIMM PC100/133                       |
-2012|(US)MEMORIA 64MB 66                                    |
+2011|(US)PALM TOP IPAQ 4150                                 |
+2012|(US)MEMORIA 128mb DIMM PC100/133                       |
 2013|(US)MICRO K7 ATLON 2600                                |
 2014|(US)MICRO SEMPROM 2200                                 |
 2015|(US)MICRO USADO                                        |
 2016|(US)MICRO USADO K6II 500                               |
 2017|(US)MICRO USADOS -K6II400                              |
-2018|(US)MONITOR TODAS AS MARCAS                            |
-2019|(US)MOUSE PS2 USADO TODAS MARCAS                       |
-2020|(US)MOUSE SERIAL TODAS AS MARCAS                       |
-2021|(US)NOTEBOOK TOSHIBA 2100CDS                           |
-2022|(US)PALM TOP IPAQ 4150                                 |
-2023|(US)PL. MAE PC CHIPS 598 S/V/R                         |
-2024|(US)PL.DE SOM CREATIVE 16BITS                          |
-2025|(US)PL.DE SOM CRISTAL 3D                               |
-2026|(US)PLACA MAE PC CHIPS 810 C/ VGA/SOM/FAX/RED          |
+2018|(US)MOUSE SERIAL TODAS AS MARCAS                       |
+2019|(US)ZIP DRIVE 100MB IOMEGA EXT.                        |
+2020|(US)TECLADO PS2                                        |
+2021|ADAP.9100 UNIVERSAL LEADERSHIP                         |
+2022|(US)MEMORIA 64MB 66                                    |
+2023|ADAP. PARA TELEFONE                                    |
+2024|ADAP. PARA TELEFONE TRIPLO                             |
+2025|ADAP. PARA TELEFONE DUPLO                              |
+2026|ADAP. SCSI                                             |
 2027|(US)PROCESSADOR PENTIUM III 800                        |
-2028|(US)PROCESSADOR PIII 600MHZ                            |
-2029|(US)SCANNER GENIUS VIVIDIII                            |
-2030|(US)TECL.AT TODAS AS MARCAS                            |
-2031|(US)TECLADO PS2                                        |
-2032|(US)VGA 3D 67PRO                                       |
-2033|(US)ZIP DRIVE 100MB IOMEGA EXT.                        |
-2035|ACCES.POINT DLINK 604TC 4PORTAS                        |
+2028|(US)GAB. ATX HORIZONTAL                                |
+2029|(US)GAB. ATX MINITORRE 300W                            |
+2030|(US)GRAVADOR 24X10X40 L.G.                             |
+2031|Acces Kit MiniI Mouse/HUB4P/RJ45/RJ11 P/NB             |
+2032|(US)AP. FAX SHARP UX-67                                |
+2033|ACCES.POINT DLINK 604TC 4PORTAS                        |
+2035|Aces Kit MTEK NB-Mouse/HUB2P/RJ45/MIC.                 |
 2036|ACESS POINT DI-624 DLINK 108MBPS                       |
-2037|ACESS POINT DWL-2100AP D'LINK                          |
-2038|ADAP. DIMM X MINI DIMM P/TECLADO                       |
-2039|ADAP. DRIVE 5 1/4 P/ 3 1/2                             |
-2040|ADAP. MINI-DIMM X DIMM P/TECLADO                       |
-2041|ADAP. P/ CABO DE ENERGIA                               |
-2042|ADAP. P/ TOMADA TRIPOLAR                               |
-2043|ADAP. PARA TELEFONE                                    |
-2044|ADAP. PARA TELEFONE DUPLO                              |
-2045|ADAP. PARA TELEFONE TRIPLO                             |
-2046|ADAP. PS2 PARA SERIAL P/MOUSE                          |
-2047|ADAP. SCSI                                             |
-2048|ADAP. TRJ11 6P 4C FEMEAS                               |
-2049|ADAP.01027 CLONE P/TOMADA INDICADOR DE FUNC.           |
-2050|ADAP.05022 P/MOUSE CLONE DB9M X DB25F                  |
-2051|ADAP.05024 P/SERIAL CLONE DB9F X DB25M                 |
-2052|ADAP.05053 CLONE USB A FEMEA X B MACHO                 |
+2037|ADAP. DRIVE 5 1/4 P/ 3 1/2                             |
+2038|ADAP. MINI-DIMM X DIMM P/TECLADO                       |
+2039|ADAP. P/ TOMADA TRIPOLAR                               |
+2040|ADAP. P/ CABO DE ENERGIA                               |
+2041|(US)DRIVE CD ROM 52X CREATIVE                          |
+2042|(US)DRIVE 1.44 + 1.2 DUPLO                             |
+2043|ADAP. PS2 PARA SERIAL P/MOUSE                          |
+2044|(US)PL.DE SOM CRISTAL 3D                               |
+2045|(US)PL. MAE PC CHIPS 598 S/V/R                         |
+2046|(US)PL.DE SOM CREATIVE 16BITS                          |
+2047|(US)PLACA MAE PC CHIPS 810 C/ VGA/SOM/FAX/RED          |
+2048|ADAP.05024 P/SERIAL CLONE DB9F X DB25M                 |
+2049|ADAP.05053 CLONE USB A FEMEA X B MACHO                 |
+2050|(US)CPU PENTIUM III 500MHz                             |
+2051|(US)CPU K6 II 500MHz AMD                               |
+2052|(US)DISCO DE ZIP 100MB IOMEGA                          |
 2053|ADAP.05056 CLONE USB A MACHO X A MACHO                 |
-2054|ADAP.05059 CLONE USB A FEMEA X A FEMEA                 |
-2055|ADAP.05073 P/MOUSE E TECL.P/1 USB CLONE                |
-2056|ADAP.05087 CLONE CONVERSOR USB P/SERIAL                |
-2057|ADAP.7450 TOMADA XYZ LEADERSHIP                        |
-2058|ADAP.9100 UNIVERSAL LEADERSHIP                         |
-2059|ADAP.9253 AUDIO 3.5MTS 5T                              |
-4461|(CD) CD-R TDK 48X 700MB (Tubo/OEM)                     |
-4789|ACESS POINT DWL 2100AP                                 |
+2054|(US)NOTEBOOK TOSHIBA 2100CDS                           |
+2055|(US)CPU 1 PENTIUM 100MHZ                               |
+2056|(US)CPU 1 PENTIUM 233MMX                               |
+2057|(US)CPU 2 PENTIUM 100MHZ                               |
+2058|(US)CPU 2 PENTIUM 233MHZ                               |
+2059|(US)CX. DE SOM 2.1 USADA                               |
+4461|(US)CABO DE REDE FURUKAWA                              |
+4789|(US)DRIVE 1.44MB                                       |

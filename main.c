@@ -16,16 +16,42 @@ typedef struct {
 } Registro;
 
 
-//Sort e compRegistro sao do Pedro
-int compRegistro(const void *a, const void *b){
-    Registro ra = *(Registro*)a;
-    Registro rb = *(Registro*)b;
-    return (ra.chave - rb.chave);
+
+
+void radixsort(Registro* reg, int tamanho){
+	int i;
+	int b[tamanho];
+	int maior = reg[0].chave;
+	int exp = 1;
+	for(i = 0; i < tamanho; i++){
+		if(reg[i].chave > maior){
+			maior = reg[i].chave;
+		}
+	}
+	
+	while(maior/exp > 0){
+		int bucket[10] = {0};
+		for(i = 0; i < tamanho; i++){
+			bucket[(reg[i].chave/exp) % 10]++;
+		}
+
+		for(i = 1; i < 10; i++){
+			bucket[i] += bucket[i-1];
+		}
+		for(i = (tamanho - 1); i >= 0; i--){
+			int valor = (reg[i].chave / exp)%10;
+			int aux = --bucket[valor];
+			//printf("v1: %d -- peso: %d\n", vetor[i].v1, vetor[i].peso);
+			b[aux] = reg[i].chave;
+		}
+		for (i = 0; i < tamanho; i++){
+			reg[i].chave = b[i];
+		}
+		exp *= 10;
+	}
+	
 }
 
-void sortRegistro(Registro* reg, int N){
-    qsort(reg, N, sizeof(Registro), compRegistro);
-}
 
 void abreArquivo(){    
     char nomeArq[30];
@@ -37,7 +63,7 @@ void abreArquivo(){
        printf("Erro na abertura do arquivo\n");
        printf("Programa encerrado!\n");
        exit(1);
-    }   
+    }  
 }
 
 void recebeParametros(){
@@ -101,8 +127,9 @@ void divisaoArquivo(){
         }
         
         printf("Ordenando o buffer de entrada...\n");
-        sortRegistro(regLidos, numRegBuffer);
-        
+        //sortRegistro(regLidos, numRegBuffer);
+        radixsort(regLidos, numRegBuffer);
+		
         printf("Escrevendo a corrida...\n");
         /* ESCREVE CORRIDA ORDENADA */
         for(i = 0; i < numRegBuffer; i++){
