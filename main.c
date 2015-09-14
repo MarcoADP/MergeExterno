@@ -19,8 +19,10 @@ typedef struct {
 
 
 void radixsort(Registro* reg, int tamanho){
+	printf("Tamanho: %d\n", tamanho);
 	int i;
 	int b[tamanho];
+	char* c[tamanho];
 	int maior = reg[0].chave;
 	int exp = 1;
 	for(i = 0; i < tamanho; i++){
@@ -38,14 +40,20 @@ void radixsort(Registro* reg, int tamanho){
 		for(i = 1; i < 10; i++){
 			bucket[i] += bucket[i-1];
 		}
+		
 		for(i = (tamanho - 1); i >= 0; i--){
 			int valor = (reg[i].chave / exp)%10;
 			int aux = --bucket[valor];
-			//printf("v1: %d -- peso: %d\n", vetor[i].v1, vetor[i].peso);
 			b[aux] = reg[i].chave;
+			c[aux] = reg[i].desc;
+			//printf("%s: \n", c[aux]);
 		}
+		
 		for (i = 0; i < tamanho; i++){
 			reg[i].chave = b[i];
+			//reg[i].desc = c[i];
+			printf("%s: \n", c[i]);
+			strcpy(reg[i].desc, c[i]);
 		}
 		exp *= 10;
 	}
