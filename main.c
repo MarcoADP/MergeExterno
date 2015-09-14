@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include <limits.h>
 
@@ -16,53 +17,37 @@ typedef struct {
 } Registro;
 
 
-
-
 void radixsort(Registro* reg, int tamanho){
-	printf("Tamanho: %d\n", tamanho);
-	int i, v;
-	int b[tamanho];
-	char c[tamanho][58];
-	int maior = reg[0].chave;
-	int exp = 1;
-	for(i = 0; i < tamanho; i++){
-		if(reg[i].chave > maior){
-			maior = reg[i].chave;
-		}
-	}
-	
-	while(maior/exp > 0){
-		int bucket[10] = {0};
-		for(i = 0; i < tamanho; i++){
-			bucket[(reg[i].chave/exp) % 10]++;
-		}
+    int i;
+    Registro b[tamanho];
+    int maior = reg[0].chave;
+    int exp = 1;
+    for(i = 0; i < tamanho; i++){
+        if(reg[i].chave > maior){
+            maior = reg[i].chave;
+        }
+    }
+    
+    while(maior/exp > 0){
+        int bucket[10] = {0};
+        for(i = 0; i < tamanho; i++){
+            bucket[(reg[i].chave/exp) % 10]++;
+        }
 
-		for(i = 1; i < 10; i++){
-			bucket[i] += bucket[i-1];
-		}
-		
-		for(i = (tamanho - 1); i >= 0; i--){
-			int valor = (reg[i].chave / exp)%10;
-			int aux = --bucket[valor];
-			b[aux] = reg[i].chave;
-			
-			for(v = 0; v < 58; v++){
-				c[aux][v] = reg[i].desc[v];
-			}
-		}
-		
-		for (i = 0; i < tamanho; i++){
-			reg[i].chave = b[i];
-			for(v = 0; v < 58; v++){
-				reg[i].desc[v] = c[i][v];
-			}
-			
-		}
-		exp *= 10;
-	}
-	
+        for(i = 1; i < 10; i++){
+            bucket[i] += bucket[i-1];
+        }
+        for(i = (tamanho - 1); i >= 0; i--){
+            int valor = (reg[i].chave / exp)%10;
+            int aux = --bucket[valor];
+            b[aux] = reg[i];
+        }
+        for (i = 0; i < tamanho; i++){
+            reg[i] = b[i];
+        }
+        exp *= 10;
+    }
 }
-
 
 void abreArquivo(){    
     char nomeArq[30];
@@ -138,9 +123,8 @@ void divisaoArquivo(){
         }
         
         printf("Ordenando o buffer de entrada...\n");
-        
         radixsort(regLidos, numRegBuffer);
-		
+        
         printf("Escrevendo a corrida...\n");
         /* ESCREVE CORRIDA ORDENADA */
         for(i = 0; i < numRegBuffer; i++){
@@ -238,6 +222,7 @@ void merging(){
     /* K-WAY MERGE */
     int i_menor, j_menor, num_reg = 0;
     i = menorChave(totalCorridas, reg_por_corrida, regLidos, &i_menor, &j_menor);
+    printf("Preenchendo buffer de saida...\n");
     while (i != -1){
         regSaida[num_reg] = regLidos[i_menor][j_menor];
         regLidos[i_menor][j_menor].chave = -1;
@@ -256,6 +241,7 @@ void merging(){
         i = menorChave(totalCorridas, reg_por_corrida, regLidos, &i_menor, &j_menor);        
     }
 
+    printf("Gravando buffer de saida em disco...\n");
     /* TERMINA DE ESCREVER NA SAIDA */
     for (j = 0; j < num_reg; j++){
         fprintf(arq_saida, "%04d%s\n", regSaida[j].chave, regSaida[j].desc);                
@@ -263,7 +249,7 @@ void merging(){
     if (num_reg > 0)
         num_write++;
     
-    printf("Buffer de entrada de %d registros para %d corridas.\n", tamBufferEntrada, totalCorridas);
+    printf("\n%d divisoes no buffer de entrada com %d registro cada.\n", totalCorridas, reg_por_corrida);
     printf("Numero de registros lidos por vez de cada corrida: %d\n", reg_por_corrida);
     printf("Numero de total de reads: %d\n", num_read);
     printf("Numero de total de writes: %d\n", num_write);
