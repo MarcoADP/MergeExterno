@@ -23,7 +23,6 @@ void radixsort(Registro* reg, int tamanho){
 	int i, v;
 	int b[tamanho];
 	char c[tamanho][58];
-	//char auxiliar[59];
 	int maior = reg[0].chave;
 	int exp = 1;
 	for(i = 0; i < tamanho; i++){
@@ -139,7 +138,7 @@ void divisaoArquivo(){
         }
         
         printf("Ordenando o buffer de entrada...\n");
-        //sortRegistro(regLidos, numRegBuffer);
+        
         radixsort(regLidos, numRegBuffer);
 		
         printf("Escrevendo a corrida...\n");
